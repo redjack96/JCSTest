@@ -38,7 +38,6 @@ public class ZeroSizeCacheUnitTest extends TestCase {
      * @throws Exception
      */
     public void setUp() throws Exception {
-        System.out.println("/src/test/java/test-conf//TestZeroSizeCache.ccf");
         JCS.setConfigFilename("/TestZeroSizeCache.ccf");
         JCS.getInstance("testCache1");
     }
