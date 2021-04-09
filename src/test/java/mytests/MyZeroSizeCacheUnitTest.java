@@ -8,15 +8,15 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNull;
 
 @RunWith(Parameterized.class)
 public class MyZeroSizeCacheUnitTest {
-
-    // private static int items = 20000;
 
     @Parameter(0)
     public int items;
@@ -66,7 +66,7 @@ public class MyZeroSizeCacheUnitTest {
         jcs.remove(itemToRemove);
 
         // allow the shrinker to run
-        Thread.sleep(500);
+        await().atMost(Duration.ofMillis(500));
 
 
         // do it again.

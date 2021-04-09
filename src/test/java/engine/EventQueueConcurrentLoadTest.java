@@ -80,57 +80,57 @@ public class EventQueueConcurrentLoadTest extends TestCase {
         ActiveTestSuite suite = new ActiveTestSuite();
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest1") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runPutTest 200,200");
                 this.runPutTest(200, 200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest2") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runPutTest 1200,1400");
                 this.runPutTest(1200, 1400);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunRemoveTest1") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runRemoveTest 2200");
                 this.runRemoveTest(2200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testStopProcessing1") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runStopProcessing");
                 this.runStopProcessingTest();
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest4") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runPutTest 5200, 6600");
                 this.runPutTest(5200, 6600);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunRemoveTest2") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runRemoveTest 5200");
                 this.runRemoveTest(5200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testStopProcessing2") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runStopProcessing");
                 this.runStopProcessingTest();
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutDelayTest") {
-            public void runTest()
-                    throws Exception {
+            public void runTest() throws Exception {
+                System.out.println("runPutDelayTestProcessing");
                 this.runPutDelayTest(100, 6700);
             }
         });
@@ -155,8 +155,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
      * @param expectedPutCount
      * @throws Exception
      */
-    public void runPutTest(int end, int expectedPutCount)
-            throws Exception {
+    public void runPutTest(int end, int expectedPutCount) throws Exception {
         for (int i = 0; i <= end; i++) {
             CacheElement elem = new CacheElement("testCache1", i + ":key", i + "data");
             queue.addPutEvent(elem);
@@ -183,8 +182,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
      * @param end
      * @throws Exception
      */
-    public void runRemoveTest(int end)
-            throws Exception {
+    public void runRemoveTest(int end) throws Exception {
         for (int i = 0; i <= end; i++) {
             queue.addRemoveEvent(i + ":key");
         }
@@ -196,8 +194,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
      *
      * @throws Exception
      */
-    public void runStopProcessingTest()
-            throws Exception {
+    public void runStopProcessingTest() throws Exception {
         queue.stopProcessing();
     }
 

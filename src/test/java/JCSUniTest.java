@@ -32,6 +32,7 @@ import java.util.Random;
  *
  * @version $Id: JCSUniTest.java 536904 2007-05-10 16:03:42Z tv $
  */
+@SuppressWarnings("unchecked")
 public class JCSUniTest extends TestCase {
     Random random = new Random();
 
