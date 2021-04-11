@@ -21,10 +21,12 @@
 
 import junit.framework.TestCase;
 import org.apache.jcs.JCS;
+import org.junit.Ignore;
 
 /**
  * @author Aaron Smuts
  */
+@Ignore
 public class ZeroSizeCacheUnitTest extends TestCase {
     /**
      * number to get each loop

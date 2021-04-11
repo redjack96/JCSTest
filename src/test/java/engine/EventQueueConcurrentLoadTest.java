@@ -30,6 +30,7 @@ import org.apache.jcs.engine.CacheElement;
 import org.apache.jcs.engine.CacheEventQueue;
 import org.apache.jcs.engine.behavior.ICacheElement;
 import org.apache.jcs.engine.behavior.ICacheListener;
+import org.junit.Ignore;
 
 /**
  * This test case is designed to makes sure there are no deadlocks in the event
@@ -38,6 +39,7 @@ import org.apache.jcs.engine.behavior.ICacheListener;
  *
  * @author Aaron Smuts
  */
+@Ignore
 public class EventQueueConcurrentLoadTest extends TestCase {
 
     private static CacheEventQueue queue = null;
