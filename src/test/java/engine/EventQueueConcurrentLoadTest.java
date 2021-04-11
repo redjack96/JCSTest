@@ -81,56 +81,56 @@ public class EventQueueConcurrentLoadTest extends TestCase {
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest1") {
             public void runTest() throws Exception {
-                System.out.println("runPutTest 200,200");
+                System.out.println("1)  runPutTest 200,200");
                 this.runPutTest(200, 200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest2") {
             public void runTest() throws Exception {
-                System.out.println("runPutTest 1200,1400");
+                System.out.println("2) runPutTest 1200,1400");
                 this.runPutTest(1200, 1400);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunRemoveTest1") {
             public void runTest() throws Exception {
-                System.out.println("runRemoveTest 2200");
+                System.out.println("3) runRemoveTest 2200");
                 this.runRemoveTest(2200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testStopProcessing1") {
             public void runTest() throws Exception {
-                System.out.println("runStopProcessing");
+                System.out.println("4) runStopProcessing");
                 this.runStopProcessingTest();
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutTest4") {
             public void runTest() throws Exception {
-                System.out.println("runPutTest 5200, 6600");
+                System.out.println("5) runPutTest 5200, 6600");
                 this.runPutTest(5200, 6600);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunRemoveTest2") {
             public void runTest() throws Exception {
-                System.out.println("runRemoveTest 5200");
+                System.out.println("6) runRemoveTest 5200");
                 this.runRemoveTest(5200);
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testStopProcessing2") {
             public void runTest() throws Exception {
-                System.out.println("runStopProcessing");
+                System.out.println("7) runStopProcessing");
                 this.runStopProcessingTest();
             }
         });
 
         suite.addTest(new EventQueueConcurrentLoadTest("testRunPutDelayTest") {
             public void runTest() throws Exception {
-                System.out.println("runPutDelayTestProcessing");
+                System.out.println("8) runPutDelayTestProcessing");
                 this.runPutDelayTest(100, 6700);
             }
         });
