@@ -11,6 +11,8 @@ import org.junit.runners.Parameterized.Parameters;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNull;
@@ -18,10 +20,14 @@ import static org.junit.Assert.assertNull;
 @RunWith(Parameterized.class)
 public class MyZeroSizeCacheUnitTest {
 
-    @Parameter(0)
-    public int items;
-    @Parameter(1)
-    public String itemToRemove;
+
+    private final int items;
+    private final String itemToRemove;
+
+    public MyZeroSizeCacheUnitTest(int items, String itemToRemove) {
+        this.items = items;
+        this.itemToRemove = itemToRemove;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -31,19 +37,18 @@ public class MyZeroSizeCacheUnitTest {
 
     @Parameters(name = "{index}: input1={0} input2={1}")
     public static Collection<Object[]> inputData() {
-        int[] start = new int[]{0, 20000, 1000};
-        String postfix = ":key";
-        String[] name = new String[]{start[0]+postfix, start[1]+postfix, start[2]+postfix};
+        Integer[] start = new Integer[]{0, 20000, 1000};
+        // Ottengo i nomi a partire dall'array di interi:  key:0, key:20000, ecc.
+        Object[] names = Arrays.stream(start).map(i -> String.format("%d:key", i)).toArray();
 
         return Arrays.asList(new Object[][]{
-                {start[0], name[0]},
-                {start[1], name[1]},
-                {start[2], name[2]},
-                {start[0], name[1]}, // ok
-                {start[1], name[2]}, // ok
-                {start[2], name[0]}, // ok
-                {-1, "-1:key"}, // ok
-                {-2, "-2:key"}, // ok
+                {start[0], names[0]}, // [zero elementi] : 0, "0:key"
+                {start[1], names[1]}, // [ultimo elemento] : 20000, "20000:key"
+                {start[2], names[2]}, // [ultimo elemento, meno elementi] : 1000, "1000:key"
+                {start[0], names[1]}, // [zero elementi, eliminazione elemento inesistente] : 0, "1000:key"
+                {start[1], names[2]}, // [elemento in mezzo] : 20000, "1000:key"
+                {start[2], names[0]}, // [primo elemento] : 1000, "0:key"
+                {-1, "-1:key"},       // [nessun put/get, eliminazione elemento inesistente]
         });
     }
 

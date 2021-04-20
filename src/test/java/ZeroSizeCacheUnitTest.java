@@ -50,8 +50,7 @@ public class ZeroSizeCacheUnitTest extends TestCase {
      *
      * @throws Exception
      */
-    public void testPutGetRemove()
-            throws Exception {
+    public void testPutGetRemove() throws Exception {
         JCS jcs = JCS.getInstance("testCache1");
 
         for (int i = 0; i <= items; i++) {

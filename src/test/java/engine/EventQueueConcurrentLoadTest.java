@@ -144,6 +144,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
      * Test setup. Create the static queue to be used by all tests
      */
     public void setUp() {
+        System.out.println("Set up running");
         listen = new CacheListenerImpl();
         queue = new CacheEventQueue(listen, 1L, "testCache1", maxFailure, waitBeforeRetry);
 
@@ -253,8 +254,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
     /**
      * This is a dummy cache listener to use when testing the event queue.
      */
-    private class CacheListenerImpl
-            implements ICacheListener {
+    private class CacheListenerImpl implements ICacheListener {
 
         /**
          * <code>putCount</code>
@@ -271,8 +271,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          *
          * @see org.apache.jcs.engine.behavior.ICacheListener#handlePut(org.apache.jcs.engine.behavior.ICacheElement)
          */
-        public void handlePut(ICacheElement item)
-                throws IOException {
+        public void handlePut(ICacheElement item) throws IOException {
             synchronized (this) {
                 putCount++;
             }
@@ -284,8 +283,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          * @see org.apache.jcs.engine.behavior.ICacheListener#handleRemove(java.lang.String,
          *      java.io.Serializable)
          */
-        public void handleRemove(String cacheName, Serializable key)
-                throws IOException {
+        public void handleRemove(String cacheName, Serializable key) throws IOException {
             synchronized (this) {
                 removeCount++;
             }
@@ -297,9 +295,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          *
          * @see org.apache.jcs.engine.behavior.ICacheListener#handleRemoveAll(java.lang.String)
          */
-        public void handleRemoveAll(String cacheName)
-                throws IOException {
-            // TODO Auto-generated method stub
+        public void handleRemoveAll(String cacheName) throws IOException {
 
         }
 
@@ -308,9 +304,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          *
          * @see org.apache.jcs.engine.behavior.ICacheListener#handleDispose(java.lang.String)
          */
-        public void handleDispose(String cacheName)
-                throws IOException {
-            // TODO Auto-generated method stub
+        public void handleDispose(String cacheName) throws IOException {
 
         }
 
@@ -319,9 +313,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          *
          * @see org.apache.jcs.engine.behavior.ICacheListener#setListenerId(long)
          */
-        public void setListenerId(long id)
-                throws IOException {
-            // TODO Auto-generated method stub
+        public void setListenerId(long id) throws IOException {
 
         }
 
@@ -330,9 +322,7 @@ public class EventQueueConcurrentLoadTest extends TestCase {
          *
          * @see org.apache.jcs.engine.behavior.ICacheListener#getListenerId()
          */
-        public long getListenerId()
-                throws IOException {
-            // TODO Auto-generated method stub
+        public long getListenerId() throws IOException {
             return 0;
         }
 
