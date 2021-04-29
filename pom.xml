@@ -8,6 +8,51 @@
     <artifactId>JCSTest</artifactId>
     <version>1.0.0</version>
 
+
+    <build>
+        <plugins>
+            <!-- Permette di eliminare il warning del jar vuoto con "mvn verify" -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <classesDirectory>src</classesDirectory>
+                    <excludes>
+                        <exclude>**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <!-- Esegue i test di integrazione durante la fase "integration-test" o "verify"-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Esegue i test di unita' durante la fase "test"-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <!-- Non voglio eseguire i test originari -->
+                <configuration>
+                    <excludes>
+                        <exclude>ZeroSizeCacheUnitTest.java</exclude>
+                        <exclude>engine/EventQueueConcurrentLoadTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
@@ -29,7 +74,6 @@
             <artifactId>log4j</artifactId>
             <version>1.2.12</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -42,8 +86,19 @@
             <version>4.0.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.18</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
 
 
 </project>
