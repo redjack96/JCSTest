@@ -90,7 +90,7 @@
                         </executions>
                     </plugin>
                     <!-- Anche per questo profilo è necessario usare il plugin Maven surefire -->
-                    <!--<plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
@@ -106,7 +106,7 @@
                             <reuseForks>false</reuseForks>
                             <useUnlimitedThreads>true</useUnlimitedThreads>
                         </configuration>
-                    </plugin>-->
+                    </plugin>
                 </plugins>
             </build>
         </profile>
