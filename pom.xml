@@ -54,8 +54,6 @@
                     <artifactId>jcs</artifactId>
                     <version>${jcs.version}</version>
                     <!-- Collego a Jacoco il fat jar già istrumentato (ha bisogno del path assoluto) -->
-<!--                    <scope>system</scope>
-                    <systemPath>${coverageProfile.systemPath}</systemPath>-->
                 </dependency>
                 <dependency> <!-- TODO: Forse queste dipendenze sono richieste da Jacoco o da Jcs-->
                     <groupId>commons-logging</groupId>
