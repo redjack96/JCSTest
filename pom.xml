@@ -34,7 +34,7 @@
         <awaitility.version>4.0.3</awaitility.version>
         <mockito.version>3.9.0</mockito.version>
         <lombok.version>1.18.18</lombok.version>
-        <sonarscanner.version>3.9.0.2155</sonarscanner.version>
+        <sonarscanner.version>3.9.0.2155</sonarscanner.version> <!-- Permette di eseguire SonarQube -->
     </properties>
 
     <!-- Per attivare questo profilo, usare il seguente comando: -->
@@ -82,18 +82,9 @@
                             <!-- NOTE THAT AUTOMATIC REPORTING IS USELESS, AS THE SOURCE FILES OF jcs ARE NEEDED: -->
                             <!-- GENERATE THE REPORTS OFFLINE AS DESCRIBED IN  jacocolibSnippets.txt -->
                             <execution>
-                                <id>jacoco-initialize</id>
-                                <phase>prepare-package</phase>
+                                <id>jacoco-on-the-fly</id>
                                 <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <!-- Sembra inutile... -->
-                            <execution>
-                                <id>jacoco-report</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>report</goal>
+                                    <goal>prepare-agent</goal> <!-- Eseguito all' inizio (phase initialize)-->
                                 </goals>
                             </execution>
                         </executions>
