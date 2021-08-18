@@ -4,98 +4,231 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Le informazioni su questo progetto. -->
     <groupId>org.giacomolorenzo.rossi</groupId>
     <artifactId>JCSTest</artifactId>
     <version>1.0.0</version>
 
-
-    <build>
-        <plugins>
-            <!-- Permette di eliminare il warning del jar vuoto con "mvn verify" -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <classesDirectory>src</classesDirectory>
-                    <excludes>
-                        <exclude>**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <!-- Esegue i test di integrazione durante la fase "integration-test" o "verify"-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Esegue i test di unita' durante la fase "test"-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                <!-- Non voglio eseguire i test originari -->
-                <configuration>
-                    <excludes>
-                        <exclude>ZeroSizeCacheUnitTest.java</exclude>
-                        <exclude>engine/EventQueueConcurrentLoadTest.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
+        <!-- Evita il warning durante la fase build -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Permette il collegamento al progetto SonarCloud -->
         <sonar.projectKey>redjack96_JCSTest</sonar.projectKey>
         <sonar.organization>redjack96</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- Le versioni delle dipendenze-->
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-failsafe-plugins.version>3.0.0-M5</maven-failsafe-plugins.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <!-- Versione di jcs -->
+        <jcs.version>1.3</jcs.version>
+        <commons-logging.version>1.1</commons-logging.version>
+        <concurrent.version>1.0</concurrent.version>
+        <org.jacoco.agent.version>0.8.5</org.jacoco.agent.version>
+        <coverageProfile.systemPath>${basedir}/jcs_fat_jar/jcs-1.3.jar</coverageProfile.systemPath>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <junit.version>4.13.2</junit.version>
+        <awaitility.version>4.0.3</awaitility.version>
+        <mockito.version>3.9.0</mockito.version>
+        <lombok.version>1.18.18</lombok.version>
     </properties>
+
+    <!-- Per attivare questo profilo, usare il seguente comando: -->
+    <!-- mvn groupId:artifactId:goal -P coverageProfile   -->
+    <profiles>
+        <profile>
+            <id>coverageProfile</id> <!-- Crea un nuovo profilo chiamato coverageProfile-->
+            <activation>
+                <activeByDefault>false</activeByDefault> <!-- Non viene attivato di default. Va eseguito via CLI -->
+            </activation>
+            <dependencies>
+                <dependency> <!-- Colleghiamo a jacoco il progetto jcs, versione 1.3 -->
+                    <groupId>org.apache.jcs</groupId>
+                    <artifactId>jcs</artifactId>
+                    <version>${jcs.version}</version>
+                    <!-- Collego a Jacoco il fat jar già istrumentato (ha bisogno del path assoluto) -->
+                    <scope>system</scope>
+                    <systemPath>${coverageProfile.systemPath}</systemPath>
+                </dependency>
+                <dependency> <!-- TODO: Forse queste dipendenze sono richieste da Jacoco o da Jcs-->
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                    <version>${commons-logging.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>concurrent</groupId>
+                    <artifactId>concurrent</artifactId>
+                    <version>${concurrent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.agent</artifactId>
+                    <classifier>runtime</classifier>
+                    <version>${org.jacoco.agent.version}</version> <!-- TODO: verificare che funziona questa versione di jacoco-->
+                </dependency>
+            </dependencies>
+            <!-- Plugin da utilizzare durante il Build del progetto. -->
+            <build>
+                <plugins>
+                    <!-- Il plugin di jacoco per Maven-->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <!-- NOTE THAT AUTOMATIC REPORTING IS USELESS, AS THE SOURCE FILES OF jcs ARE NEEDED: -->
+                            <!-- GENERATE THE REPORTS OFFLINE AS DESCRIBED IN  jacocolibSnippets.txt -->
+                            <execution>
+                                <id>jacoco-initialize</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <!-- Sembra inutile... -->
+                            <execution>
+                                <id>jacoco-report</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Anche per questo profilo è necessario usare il plugin Maven surefire -->
+                    <!--<plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>jacoco-Surefire</id>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <reuseForks>false</reuseForks>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>
+                        </configuration>
+                    </plugin>-->
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>testProfile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!-- Informazioni richieste per eseguire il build del progetto -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven-jar-plugin.version}</version>
+                        <!-- Permette di eliminare il warning del jar vuoto con "mvn verify" -->
+                        <configuration>
+                            <classesDirectory>src</classesDirectory>
+                            <excludes>
+                                <exclude>**</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <!-- Esegue i test di integrazione durante la fase "integration-test" o "verify"-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugins.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Esegue i test di unita' durante la fase "test"-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <!-- Non voglio eseguire i test originali -->
+                        <configuration>
+                            <excludes>
+                                <exclude>ZeroSizeCacheUnitTest.java</exclude>
+                                <exclude>engine/EventQueueConcurrentLoadTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonarscanner.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${org.jacoco.agent.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <dependencies>
         <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${org.jacoco.agent.version}</version>
+        </dependency>
+        <!-- Il progetto JCS per cui dobbiamo re-implementare i test come test parametrici -->
+        <dependency>
             <groupId>org.apache.jcs</groupId>
             <artifactId>jcs</artifactId>
-            <version>1.3</version>
+            <version>${jcs.version}</version>
         </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.12</version>
-        </dependency>
+        <!-- Dipendenza per il testing con Junit 4 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Utilizzato per sostituire Thread.sleep() nei test (ed evitare il Code Smell)-->
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-            <version>4.0.3</version>
+            <version>${awaitility.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.9.0</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- utilizzato per generare a run time getter, setter, costruttori ecc.-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
+            <version>${lombok.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

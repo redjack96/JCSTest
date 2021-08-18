@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
@@ -70,14 +69,14 @@ public class MyEventQueueConcurrentLoadIT {
         listen = Mockito.mock(ICacheListener.class);
 
         // Sostituisco il codice per le put della classe interna CacheListenerImpl (quello della remove era inutilizzato)
-        Mockito.doAnswer((invocation) -> {
+        Mockito.doAnswer(invocation -> {
             synchronized (this) {
                 putCount++;
             }
             return null;
         }).when(listen).handlePut(Mockito.any());
 
-        // Uso la stessa queue per tutti i metodi di cui e' composto il test
+        // Creo l'istanza della classe under test. Uso la stessa queue per tutti i metodi di cui e' composto il test
         queue = new CacheEventQueue(listen, 1L, "testCache1", maxFailure, waitBeforeRetry);
         queue.setWaitToDieMillis(idleTime);
     }
