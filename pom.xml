@@ -43,7 +43,10 @@
         <profile>
             <id>coverageProfile</id> <!-- Crea un nuovo profilo chiamato coverageProfile-->
             <activation>
-                <activeByDefault>false</activeByDefault> <!-- Non viene attivato di default. Va eseguito via CLI -->
+                <!--<activeByDefault>false</activeByDefault>--> <!-- Non viene attivato di default. Va eseguito via CLI -->
+                <file>
+                    <missing>target/jacoco.exec</missing> <!-- Si attiva se il file jacoco.exec non esiste -->
+                </file>
             </activation>
             <dependencies>
                 <dependency> <!-- Colleghiamo a jacoco il progetto jcs, versione 1.3 -->
