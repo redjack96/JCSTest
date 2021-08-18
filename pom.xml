@@ -114,6 +114,7 @@
                                 <id>jacoco-on-the-fly</id>
                                 <goals>
                                     <goal>prepare-agent</goal> <!-- Eseguito all' inizio (phase initialize)-->
+                                    <goal>prepare-agent-integration</goal>
                                 </goals>
                                 <!--<configuration>
                                     <inclNoLocationClasses>true</inclNoLocationClasses>
