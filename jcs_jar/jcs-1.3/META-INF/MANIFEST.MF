@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: Apache Maven
+Built-By: thomas
+Package: org.apache.jcs
+Build-Jdk: 1.5.0_07
+Extension-Name: jcs
+Specification-Title: Cache
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: org.apache.jcs
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 1.3
+X-Compile-Source-JDK: 1.3
+X-Compile-Target-JDK: 1.3
+
