@@ -29,7 +29,7 @@ public class MyZeroSizeCacheUnitTest {
     /**
      * Metodo configure richiesto. Viene chiamato da @Before setUp()
      */
-    private void configure(){
+    private void configure() {
         JCS.setConfigFilename("/TestZeroSizeCache.ccf");
         try {
             JCS.getInstance("testCache1");
@@ -57,6 +57,8 @@ public class MyZeroSizeCacheUnitTest {
                 {start[1], toRemove[2]}, // [elemento in mezzo] : 20000, "1000:key"
                 {start[2], toRemove[0]}, // [primo elemento] : 1000, "0:key"
                 {-1, "-1:key"},       // [nessun put/get, eliminazione elemento inesistente]
+                {1, "😀:key"},        // inserisco un carattere non ASCII
+                {1, ""},               // stringha vuota
         });
     }
 

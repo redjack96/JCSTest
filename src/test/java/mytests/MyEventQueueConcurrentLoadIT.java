@@ -54,7 +54,7 @@ public class MyEventQueueConcurrentLoadIT {
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][]{
                 {2, 3, 100}, // a volte fallisce
-                {50, 3, 100}, // ha successo quasi sempre
+                {50, 100, 100}, // ha successo quasi sempre
         });
     }
 
