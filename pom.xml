@@ -20,9 +20,7 @@
         <sonar.projectKey>redjack96_JCSTest</sonar.projectKey>
         <sonar.organization>redjack96</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.language>java</sonar.language>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}\jacoco\report\jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.tests>src/test/java</sonar.tests>
         <!-- Le versioni delle dipendenze-->
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-failsafe-plugins.version>3.0.0-M5</maven-failsafe-plugins.version>
@@ -42,6 +40,7 @@
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version> <!-- Permette di eseguire SonarQube -->
         <jcs-source-location>${basedir}/jcs_source/src</jcs-source-location>
         <jcs-classes-location>${basedir}/jcs_jar/jcs-1.3/org/apache/jcs/</jcs-classes-location>
+        <jcs-classes-baseLocation>${basedir}/jcs_jar/jcs-1.3/</jcs-classes-baseLocation>
     </properties>
 
     <!-- Per attivare questo profilo, usare il seguente comando: -->
@@ -54,6 +53,27 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-classes</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/classes</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${jcs-classes-baseLocation}</directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
