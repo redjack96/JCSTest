@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Giacomo Lorenzo Rossi
  * Integration Test per provare failsafe (e' di integration perche' usa un mock della interfaccia ICacheListener)
+ *
+ * Per eseguire test e test d'integrazione
  */
 @RunWith(Parameterized.class)
 public class MyEventQueueConcurrentLoadIT {
@@ -32,9 +34,9 @@ public class MyEventQueueConcurrentLoadIT {
     private int count; // Conta il numero di chiamate di @Before setUp() per individuare eventuali errori
 
     /* Parametri del test */
-    private int idleTime; // in millisecondi
-    private int maxFailure;
-    private int waitBeforeRetry;
+    private final int idleTime; // in millisecondi
+    private final int maxFailure;
+    private final int waitBeforeRetry;
 
     /**
      * Costruttore per poter usare parametri di test private (e non public)
@@ -60,7 +62,7 @@ public class MyEventQueueConcurrentLoadIT {
      * Metodo di configurazione richiesto. Viene richiamato nel metodo annotato con @Before
      * per essere eseguito a ogni diversa esecuzione del test.
      *
-     * Utilizza un Mock per l'intergaccia ICacheListener che sostituisce la classe interna CacheListenerImpl
+     * Utilizza un Mock per l'interfaccia ICacheListener che sostituisce la classe interna CacheListenerImpl
      */
     private void configure() throws IOException {
         putCount = 0;
