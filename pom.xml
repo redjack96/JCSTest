@@ -21,7 +21,7 @@
         <sonar.organization>redjack96</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.language>java</sonar.language>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/jacoco\report\jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}\jacoco\report\jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.tests>src/test/java</sonar.tests>
         <!-- Le versioni delle dipendenze-->
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
@@ -127,10 +127,11 @@
                                                             </structure>
                                                             <html destdir="${project.basedir}\target\jacoco\report" />
                                                             <xml destfile="${project.basedir}\target\jacoco\report\jacoco.xml"/>
+                                                            <csv destfile="${project.basedir}\target\jacoco\report\jacoco.csv"/>
                                                         </jacoco-report>
                                                     </try>
                                                     <catch>
-                                                        <echo>SALTO DI NINAZZO</echo>
+                                                        <echo>IMPOSSIBILE FARE IL REPORT</echo>
                                                     </catch>
                                                 </trycatch>
                                             </then>
