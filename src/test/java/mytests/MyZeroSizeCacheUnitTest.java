@@ -50,6 +50,7 @@ public class MyZeroSizeCacheUnitTest {
         Object[] toRemove = Arrays.stream(start).map(i -> String.format("%d:key", i)).toArray();
 
         return Arrays.asList(new Object[][]{
+                {20000, "300:key"},      // test originale
                 {start[0], toRemove[0]}, // [zero elementi] : 0, "0:key"
                 {start[1], toRemove[1]}, // [ultimo elemento] : 20000, "20000:key"
                 {start[2], toRemove[2]}, // [ultimo elemento, meno elementi] : 1000, "1000:key"

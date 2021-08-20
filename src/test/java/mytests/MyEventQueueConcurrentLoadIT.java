@@ -53,7 +53,7 @@ public class MyEventQueueConcurrentLoadIT {
     @Parameters(name = "{index}: idleTime={0} maxFailure={1} waitBeforeRetry={2}")
     public static Collection<Object[]> getTestParameters() {
         return Arrays.asList(new Object[][]{
-                {2, 3, 100}, // a volte fallisce
+                {2, 3, 100},    // Test originale (a volte fallisce)
                 {50, 100, 100}, // ha successo quasi sempre
         });
     }
