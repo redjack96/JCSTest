@@ -112,6 +112,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <argLine>@{argLine}</argLine>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -125,6 +128,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <argLine>@{argLine}</argLine>
+                        </configuration>
                     </plugin>
                     <!-- Creo il report con l' aiuto del plugin Ant -->
                     <plugin>
